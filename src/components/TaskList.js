@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Task from './Task'; // Assurez-vous que le chemin d'importation est correct
+import Task from './Task';
 
 function TaskList() {
     const [tasks, setTasks] = useState([]);
@@ -42,7 +42,7 @@ function TaskList() {
                 </form>
             )}
             {tasks.map((task, index) => (
-                <Task key={index} task={task} onDelete={handleDeleteTask} onEdit={handleEditTask} /> // Passer la fonction handleEditTask en tant que prop onEdit
+                <Task key={index} task={task} onDelete={handleDeleteTask} onEdit={handleEditTask} />
             ))}
         </div>
     );
