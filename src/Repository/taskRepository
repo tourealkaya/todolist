@@ -1,0 +1,16 @@
+let taskRepository = [];
+
+let task1 = {
+    id: 1,
+    title: "Première tâche",
+    text: "Ceci est la première tâche"
+};
+
+let task2 = {
+    id: 2,
+    title: "Deuxième tâche",
+    text: "Ceci est la deuxième tâche"
+};
+Ò
+taskRepository.push(task1, task2);
+export default taskRepository;
