@@ -1,23 +1,50 @@
-// JavaScript + React
-import React from 'react';
-import Task from './Task';
+import React, { useState } from 'react';
+import Task from './Task'; // Assurez-vous que le chemin d'importation est correct
 
 function TaskList() {
-    const [tasks, setTasks] = React.useState([
-        { title: "Apprendre React", id: 1, text: "Ceci est la première tâche" },
-        { title: "Créer une application To-Do", id: 2, text: "Ceci est la deuxième tâche" }
-    ]);
+    const [tasks, setTasks] = useState([]);
+    const [newTaskTitle, setNewTaskTitle] = useState('');
+    const [newTaskText, setNewTaskText] = useState('');
+    const [isAddingTask, setIsAddingTask] = useState(false);
 
-    if (tasks.length === 0) {
-        return <p>Aucune tâche à afficher</p>;
-    }
+    const handleNewTaskTitleChange = (e) => {
+        setNewTaskTitle(e.target.value);
+    };
+
+    const handleNewTaskTextChange = (e) => {
+        setNewTaskText(e.target.value);
+    };
+
+    const handleNewTaskSubmit = (e) => {
+        e.preventDefault();
+        setTasks([...tasks, { title: newTaskTitle, text: newTaskText }]);
+        setNewTaskTitle('');
+        setNewTaskText('');
+        setIsAddingTask(false);
+    };
+
+    const handleDeleteTask = (taskToDelete) => {
+        setTasks(tasks.filter(task => task !== taskToDelete));
+    };
+
+    const handleEditTask = (taskToEdit, newText) => {
+        setTasks(tasks.map(task => task === taskToEdit ? { ...task, text: newText } : task));
+    };
 
     return (
-        <ul>
-            {tasks.map((task) => (
-                <Task key={task.id} task={task} />
+        <div>
+            <button onClick={() => setIsAddingTask(true)}>Ajouter une tâche</button>
+            {isAddingTask && (
+                <form onSubmit={handleNewTaskSubmit}>
+                    <input value={newTaskTitle} onChange={handleNewTaskTitleChange} placeholder="Titre de la tâche" />
+                    <input value={newTaskText} onChange={handleNewTaskTextChange} placeholder="Texte de la tâche" />
+                    <button type="submit">Valider</button>
+                </form>
+            )}
+            {tasks.map((task, index) => (
+                <Task key={index} task={task} onDelete={handleDeleteTask} onEdit={handleEditTask} /> // Passer la fonction handleEditTask en tant que prop onEdit
             ))}
-        </ul>
+        </div>
     );
 }
 
